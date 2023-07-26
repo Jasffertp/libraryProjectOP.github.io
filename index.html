@@ -9,7 +9,7 @@
   <body>
     <header>This is the header</header>
     <div class="container">
-      <div class="addBook">Adding a book</div>
+      <button type="button" class="btn-add-book">add book</button>
       <div class="books">
         <!-- <div class="book" data-element="index">
           <h1 class="title">Book Title</h1>
@@ -19,6 +19,17 @@
         </div> -->
       </div>
     </div>
+    <form action="POST" style="display: inline">
+      <label for="title">Title</label>
+      <input type="text" class="title" />
+      <label for="author">Author</label>
+      <input type="text" class="author" />
+      <label for="pages">pages</label>
+      <input type="number" class="pages" />
+      <label for="status">Have you read the book? </label>
+      <input type="checkbox" name="status" class="status" />
+      <input type="submit" value="submit" />
+    </form>
     <footer>Where your copyright will go and your github</footer>
   </body>
 </html>

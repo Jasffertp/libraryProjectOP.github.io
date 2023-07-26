@@ -2,10 +2,14 @@
 
 const myLibrary = [];
 const booksEl = document.querySelector('.books');
+const addBtn = document.querySelector('.btn-add-book');
+const form = document.querySelector('form');
+const inputTitle = document.querySelector('.title');
+const inputAuthor = document.querySelector('.author');
+const inputPages = document.querySelector('.pages');
+const inputStatus = document.querySelector('.status');
 
-const displayBooks = function (book, index) {
-  //   booksEl.innerHTML = '';
-
+const showBook = function (book, index) {
   const el = `
     <div class="book" data-index="${index}">
         <h1 class="title">${book.title}</h1>
@@ -18,22 +22,12 @@ const displayBooks = function (book, index) {
     </div>`;
 
   booksEl.insertAdjacentHTML('afterbegin', el);
-
-  //   myLibrary.forEach((element, index) => {
-  //     const el = `
-  //     <div class="book" data-element="${index}">
-  //         <h1 class="title">${element.title}</h1>
-  //         <h2 class="author">By ${element.author}</h2>
-  //         <h5 class="pages">${element.numberOfPages} pages</h5>
-  //         <h5 class="status">${element.status ? 'read' : 'want to read'}</h5>
-  //         <h3 class="delete"> remove book? </h3>
-  //     </div>`;
-
-  //     booksEl.insertAdjacentHTML('beforeend', el);
-  //   });
 };
 
-const book = function (book) {};
+const displayBooks = function () {
+  booksEl.innerHTML = '';
+  myLibrary.forEach(showBook.bind());
+};
 
 // TODO: Add a function that fixes the capitalization of the name of the book and title
 const addBookToLibrary = function (author, title, noOfPages, read = false) {
@@ -45,11 +39,13 @@ const addBookToLibrary = function (author, title, noOfPages, read = false) {
   };
   myLibrary.push(book);
 
-  displayBooks(book, myLibrary.length - 1);
+  showBook(book, myLibrary.length - 1);
 };
 
 const removeBook = function (index) {
-  console.log(myLibrary[index]);
+  myLibrary.splice(index, 1);
+  console.log(myLibrary);
+  displayBooks();
 };
 
 const updateStatus = function (index) {
@@ -67,6 +63,8 @@ const updateStatus = function (index) {
 // TODO: Create a modal that queries the user to remove the data
 booksEl.addEventListener('click', function (element) {
   const book = element.target;
+
+  console.log(book.closest('div'));
   if (book.className === 'delete')
     removeBook(book.closest('div').dataset.index);
 
@@ -74,8 +72,23 @@ booksEl.addEventListener('click', function (element) {
     updateStatus(book.closest('div').dataset.index);
 });
 
+addBtn.addEventListener('click', function (event) {
+  console.log('click!');
+});
+
+form.addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  addBookToLibrary(
+    inputAuthor.value,
+    inputTitle.value,
+    inputPages.value,
+    inputStatus.checked
+  );
+});
+
 addBookToLibrary('Jonathan Stroud', 'The Screaming Staircase', 358, true);
 addBookToLibrary('George Orwell', '1984', 256, true);
 addBookToLibrary('Fyodor Dostoevsky', 'The Idiot', 456, false);
-// addBookToLibrary('Albert Camus', 'The Myth of Sisyphus', 136, true);
-// addBookToLibrary('Leigh Bardugo', 'The Crooked Kingdom', 358, true);
+addBookToLibrary('Albert Camus', 'The Myth of Sisyphus', 136, true);
+addBookToLibrary('Leigh Bardugo', 'The Crooked Kingdom', 358, true);
